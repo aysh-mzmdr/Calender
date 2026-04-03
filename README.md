@@ -1,0 +1,1 @@
+Calendar application for seamless daily tracking, custom color highlighting, and personal note-taking.
