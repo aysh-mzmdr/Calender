@@ -15,11 +15,10 @@ CLIENT_PORT = 5173
 VITE_SERVER_PORT = 3000   <- must match SERVER_PORT
 ```
 
-`run.bat` will also auto-reassign ports if they're busy at startup, and update `.env` accordingly.
-
 ## How to start
-1. Run `run.bat`
-2. Open the URL printed in the terminal (default: http://localhost:5173/)
+1. Run `setup.bat` for the initial setup.
+2. Run `run.bat`
+3. Open the URL printed in the terminal (default: http://localhost:5173/) 
 
 ## How to use
 - Click on a date to open the editor
