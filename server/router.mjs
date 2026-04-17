@@ -1,12 +1,19 @@
 import { Router } from "express"
-import pool from "./database.mjs"
+import db from "./database.mjs"
 
 const router = Router()
 
 router.post("/api/update", async (request,response) => {
     const {date,color,note} = request.body
     try{
-        await pool.query(`INSERT INTO dates (date,color,note) VALUES ($1,$2,$3) ON CONFLICT (date) DO UPDATE SET color = $2, note = $3`,[date,color,note])
+        await new Promise((resolve, reject) => {
+            db.run(`INSERT OR REPLACE INTO dates (date,color,note) VALUES (?,?,?)`,[date,color,note], 
+                function(err) {
+                    if (err) reject(err)
+                    else resolve(this)
+                }
+            )
+        })
         return response.sendStatus(201)
     }
     catch(err){
@@ -16,9 +23,15 @@ router.post("/api/update", async (request,response) => {
 })
 
 router.get("/api/getDates",async(request,response) => {
-    const data = await pool.query("SELECT TO_CHAR(date,'YYYY-MM-DD') AS date,color,note FROM dates")
-    const dateData = data.rows
-    response.send(dateData)
+    const data = await new Promise((resolve, reject) => {
+        db.all("SELECT * FROM dates",
+            function(err, rows) {
+                if (err) reject(err)
+                else resolve(rows)
+            }
+        )
+    })
+    response.send(data)
 })
 
 export default router

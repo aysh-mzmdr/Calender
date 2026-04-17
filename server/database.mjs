@@ -1,11 +1,14 @@
-import { Pool } from "pg"
+import sqlite3 from "sqlite3"
 import dotenv from "dotenv"
 
 dotenv.config({ path: "../.env" })
 
-const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
-const pool = new Pool({
-    connectionString: connectionString
+const db = new sqlite3.Database('./calendar.db', (err) => {
+    if (err) {
+        console.error('Error opening database:', err.message);
+    } else {
+        console.log('Connected to SQLite database');
+    }
 })
 
-export default pool;
+export default db;

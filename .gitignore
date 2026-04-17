@@ -1,3 +1,5 @@
 .env
+CLAUDE.md
+calendar.db
 
 node_modules

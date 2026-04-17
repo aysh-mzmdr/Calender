@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './App.module.css';
 
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const SERVER_PORT = import.meta.env.VITE_SERVER_PORT
 
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const COLORS = [
@@ -16,9 +17,8 @@ const COLORS = [
   { name: 'Purple', value: 'purple' },
 ];
 
-const SERVER_PORT = import.meta.env.VITE_SERVER_PORT
-
 export default function Calendar() {
+
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [dateData, setDateData] = useState({});
   const [modalState, setModalState] = useState({ isOpen: false, date: null });
@@ -50,8 +50,11 @@ export default function Calendar() {
     .catch(err => window.alert(err))
   },[])
 
-  const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
-  const getFirstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
+  const getDaysInMonth = (year, month) => 
+    new Date(year, month + 1, 0).getDate();
+
+  const getFirstDayOfMonth = (year, month) => 
+    new Date(year, month, 1).getDay();
 
   const handleDateClick = (dateStr) => {
     const existingData = dateData[dateStr] || { note: '', color: '' };
@@ -102,7 +105,7 @@ export default function Calendar() {
   return (
     <div className={`${styles.calendarWrapper} ${styles[theme]}`}>
       <header className={styles.header}>
-        <div className={styles.headerSpacer} /> {/* Helps center the title */}
+        <div className={styles.headerSpacer} />
         <div className={styles.yearControls}>
           <button onClick={() => setCurrentYear((y) => y - 1)} className={styles.navBtn}>
             &#8592;
